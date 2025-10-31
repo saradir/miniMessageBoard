@@ -1,6 +1,10 @@
 const db = require("../db/queries");
 
-
+async function newMessageGet(req, res) {
+  res.render("form",{
+    title: "New Message",
+  });
+}
 async function getAllMessages(req, res) {
     const messages = await db.getAllMessages();
     console.log(messages);
@@ -17,7 +21,8 @@ async function getMessage(req,res) {
   }
 
   async function insertMessage(req, res) {
-    await db.insertMessage(req.body.author, req.body.messageText);
+    const {author, messageText} = req.validated;
+    await db.insertMessage(author, messageText);
     res.redirect("/");
   }
 
@@ -25,6 +30,7 @@ module.exports = {
     getAllMessages,
     getMessage,
     insertMessage,
+    newMessageGet
 };
 
 
